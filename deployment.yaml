@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-nginx
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+      - name: my-nginx-container
+        image: us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/node-app:v1
+        ports:
+        - containerPort: 80
