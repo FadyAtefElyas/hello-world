@@ -11,7 +11,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'google-cred', variable: 'GCLOUD_AUTH')]) {
                     
-                    sh 'docker build -t  fadyelyas/hello-app:latest'
+                    sh 'docker build -t  fadyelyas/hello-app:latest .'
                     sh 'docker tag  fadyelyas/hello-app us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/hello-app:latest'
                     sh 'docker push us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/hello-app:latest'
                     sh 'gcloud auth activate-service-account --key-file=$GCLOUD_AUTH'
