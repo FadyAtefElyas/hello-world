@@ -13,6 +13,7 @@ pipeline {
                     
                     sh 'docker build -t  fadyelyas/hello-app:latest .'
                     sh 'gcloud auth activate-service-account --key-file=$GCLOUD_AUTH'
+                    sh 'echo "Fady2_atef" | sudo -S gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin us-central1-docker.pkg.dev'
                     sh 'docker tag  fadyelyas/hello-app us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/hello-app:latest'
                     sh 'docker push us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/hello-app:latest'
                     sh 'gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GCLOUD_PROJECT'
