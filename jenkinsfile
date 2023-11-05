@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy') {
+            environment {
+                GCLOUD_PROJECT = 'fady-401509'
+                GKE_CLUSTER = 'node-app-cluster'
+                GKE_ZONE = 'europe-west6'
+            }
+            steps {
+                withCredentials([file(credentialsId: 'google-cred', variable: 'GCLOUD_AUTH')]) {
+                    
+                    sh 'sudo docker build -t  fadyelyas/hello-app:latest'
+                    sh 'sudo docker tag  fadyelyas/hello-app us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/hello-app:latest'
+                    sh 'sudo docker push us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/hello-app:latest'
+                    sh 'gcloud auth activate-service-account --key-file=$GCLOUD_AUTH'
+                    sh 'gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GCLOUD_PROJECT'
+                    sh 'kubectl apply -f hello-world/deployment.yaml'
+                    sh 'kubectl apply -f hello-world/load_balancer.yaml'
+                }
+            }
+        }
+    }
+}
