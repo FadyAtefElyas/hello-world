@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: my-nginx-container
-        image: us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/node-app:v1
+        image: us-central1-docker.pkg.dev/fady-401509/my-repository/fadyelyas/node-app:latest
         ports:
         - containerPort: 80
